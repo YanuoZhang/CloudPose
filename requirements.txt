@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+python-multipart
+python-decouple
+python-dotenv
+requests
+locust
+black
+isort
+flake8
+
+ultralytics
+opencv-python>=4.6.0
+torch>=1.8.0
+ultralytics-thop>=2.0.0
+torchvision>=0.9.0
