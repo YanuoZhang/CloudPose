@@ -1,31 +1,42 @@
-from app.utils.image import base64_to_pil, pil_to_base64, pil_to_cv2, cv2_to_pil
-from PIL import Image
-import cv2
 import base64
+import requests
 
-# 1. reading original image
-original = Image.open("test.jpg").convert("RGB")
+def encode_image(path: str) -> str:
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
 
-# 2. PIL to base64
-base64_str = pil_to_base64(original)
-print("true, pil_to_base64 successful")
+def test_pose_estimation(base64_img: str):
+    payload = {
+        "id": "test-001",
+        "image": base64_img
+    }
+    url = "http://localhost:60001/api/pose_estimation"
+    response = requests.post(url, json=payload)
+    print("pose_estimation response: ")
+    print("Status Code:", response.status_code)
+    print("Response:", response.json())
 
-# 3. base64 to PIL
-pil_img = base64_to_pil(base64_str)
-print("true, base64_to_pil successful")
+def test_pose_estimation_annotation(base64_img: str):
+    payload = {
+        "id": "test-002",
+        "image": base64_img
+    }
+    url = "http://localhost:60001/api/pose_estimation_annotation"
+    response = requests.post(url, json=payload)
+    print("pose_estimation_annotation response:")
+    print("Status Code:", response.status_code)
 
-# 4. PIL to OpenCV
-cv2_img = pil_to_cv2(pil_img)
-print("true, pil_to_cv2 successful, Image shape:", cv2_img.shape)
+    if response.status_code == 200:
+        res = response.json()
 
-# 5. OpenCV to PIL
-pil_restored = cv2_to_pil(cv2_img)
-print("true, cv2_to_pil successful")
+        image_bytes = base64.b64decode(res["image"])
+        with open("result_annotated.jpg", "wb") as f:
+            f.write(image_bytes)
+        print("save result_annotated.jpg")
+    else:
+        print(" failed")
 
-# 6. save, check if color is correct
-original.save("check_1_original.jpg")
-pil_img.save("check_2_pil_decoded.jpg")
-pil_restored.save("check_3_pil_from_cv2.jpg")
-cv2.imwrite("check_4_cv2_img.jpg", cv2_img)
-
-print("true, all successful")
+if __name__ == "__main__":
+    image_base64 = encode_image("test.jpg")
+    test_pose_estimation(image_base64)
+    test_pose_estimation_annotation(image_base64)
