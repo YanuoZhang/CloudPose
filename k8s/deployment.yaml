@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudpose-deployment
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: cloudpose
+  template:
+    metadata:
+      labels:
+        app: cloudpose
+    spec:
+      containers:
+        - name: cloudpose-container
+          image: yanuoz/cloudpose-app:latest  
+          ports:
+            - containerPort: 60001
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "0.5"
+            limits:
+              memory: "512Mi"
+              cpu: "0.5"
+          imagePullPolicy: IfNotPresent

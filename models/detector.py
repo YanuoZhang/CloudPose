@@ -2,11 +2,11 @@ from ultralytics import YOLO
 import numpy as np
 import cv2
 import tempfile
-from model.pose_detection import predict as pose_predict 
+from models.pose_detection import predict as pose_predict 
 
 
 class Detector:
-    def __init__(self, model_path: str = "model3-yolol/yolo11l-pose.pt"):
+    def __init__(self, model_path: str = "models/yolo11l-pose.pt"):
         self.model = YOLO(model_path)
 
     def predict(self, image: np.ndarray):
