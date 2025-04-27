@@ -16,6 +16,7 @@ spec:
       containers:
         - name: cloudpose-container
           image: yanuoz/cloudpose-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 60001
           resources:
@@ -24,4 +25,4 @@ spec:
               cpu: "0.5"
             limits:
               memory: "512Mi"
-              cpu: "0.5"
+              cpu: "0.5"          

@@ -24,7 +24,7 @@ def call_cloudpose_service(image):
         data ['id'] = str(img_id)
         headers = {'Content-Type': 'application/json'}
 
-        response = requests.post(url, json= json.dumps(data), headers = headers)
+        response = requests.post(url, json=data, headers = headers)
 
         if response.ok:
             output = "Thread : {},  input image: {},  output:{}".format(threading.current_thread().getName(),

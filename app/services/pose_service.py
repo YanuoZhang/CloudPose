@@ -24,7 +24,11 @@ class PoseService:
             inference_time = time.time()
 
             if keypoints is None or boxes is None:
-                logger.warning(f"[Detect] id={data.id} | No keypoints or boxes detected.")
+                logger.warning(f"[Detect] id={data.id} | keypoints or boxes is None (model may have failed). Returning empty list.")
+                keypoints, boxes = [], []
+
+            if not isinstance(keypoints, list) or not isinstance(boxes, list):
+                logger.warning(f"[Detect] id={data.id} | keypoints or boxes not list after detection. Forcing to empty list.")
                 keypoints, boxes = [], []
 
             time.sleep(0.01)
