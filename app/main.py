@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from app.schemas.request import PoseRequest
 from app.services.pose_service import PoseService
 import logging
+import json
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,11 +14,21 @@ app = FastAPI(title="CloudPose", description="Pose Detection API", version="1.0.
 pose_service = PoseService()
 
 @app.post("/api/pose_estimation")
-def pose_estimation(data: PoseRequest):
+async def pose_estimation(req: Request):
+    body = await req.json()
+    if isinstance(body, str):
+        body = json.loads(body)
+    data = PoseRequest(**body)
+
     logger.info(f"Received pose_estimation request with id={data.id}")
     return pose_service.detect(data)
 
 @app.post("/api/pose_estimation_annotation")
-def pose_estimation_annotation(data: PoseRequest):
+async def pose_estimation_annotation(req: Request):
+    body = await req.json()
+    if isinstance(body, str):
+        body = json.loads(body)
+    data = PoseRequest(**body)
+
     logger.info(f"Received pose_estimation_annotation request with id={data.id}")
     return pose_service.detect_with_annotation(data)

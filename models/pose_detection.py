@@ -18,7 +18,10 @@ def predict(model, src_img, dst_img):
     for result in results:
         keypoints = result.keypoints  # Keypoints object
         #print(keypoints)
-
+        if keypoints is None or keypoints.conf is None:
+            print("No keypoints detected.")
+            continue
+    
         if keypoints is not None and len(keypoints.xy) > 0: #Check if keypoints are detected
             # Get keypoints coordinates (x, y) - Shape: (num_people, num_keypoints, 2)
             keypoints_xy = keypoints.xy[0]  # Assuming only one person detected for simplicity. Adapt if multiple people are expected.
