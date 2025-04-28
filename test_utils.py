@@ -37,6 +37,6 @@ def test_pose_estimation_annotation(base64_img: str):
         print(" failed")
 
 if __name__ == "__main__":
-    image_base64 = encode_image("000000393149.jpg")
+    image_base64 = encode_image("000000012807.jpg")
     test_pose_estimation(image_base64)
     test_pose_estimation_annotation(image_base64)

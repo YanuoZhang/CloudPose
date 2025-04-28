@@ -8,7 +8,7 @@ import os
 import random
 
 class CloudPoseUser(HttpUser):
-    wait_time = between(0.5, 1) 
+    wait_time = between(0.5, 1)
 
     def on_start(self):
         input_folder = "./inputfolder/"
@@ -29,13 +29,13 @@ class CloudPoseUser(HttpUser):
         }
         return payload
 
-    @task(1)
+    @task
     def pose_estimation(self):
         payload = self.generate_payload()
         headers = {'Content-Type': 'application/json'}
         self.client.post("/api/pose_estimation", data=json.dumps(payload), headers=headers)
 
-    @task(1)
+    @task
     def pose_estimation_annotation(self):
         payload = self.generate_payload()
         headers = {'Content-Type': 'application/json'}
