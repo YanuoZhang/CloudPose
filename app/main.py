@@ -1,3 +1,6 @@
+import torch
+torch.set_num_threads(1)
+
 from fastapi import FastAPI, Request
 from app.schemas.request import PoseRequest
 from app.services.pose_service import PoseService

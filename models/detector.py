@@ -9,7 +9,7 @@ class Detector:
         self.model = YOLO(model_path)
 
     def predict(self, image: np.ndarray):
-        results = self.model.predict(source=image, save=False, imgsz=360, device='cpu')
+        results = self.model.predict(source=image, save=False, imgsz=224, device='cpu')
 
         all_keypoints = []
         all_boxes = []

@@ -5,6 +5,7 @@ from fastapi import HTTPException
 from app.utils.image import base64_to_pil, pil_to_cv2, bytes_to_base64
 from models.detector import Detector
 import concurrent.futures
+import gc
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,13 @@ class PoseService:
             }
 
             self.cache[data.image] = result
+
+            pil_img = None
+            cv2_img = None
+            keypoints = None
+            boxes = None
+
+            gc.collect()
             return result
 
         except Exception as e:
@@ -103,6 +111,12 @@ class PoseService:
             result_base64 = bytes_to_base64(annotated_bytes)
 
             logger.info(f"[Annotate] Finished annotation for id={data.id}")
+            pil_img = None
+            cv2_img = None
+            annotated_bytes = None
+
+            gc.collect()
+            
             return {
                 "id": data.id,
                 "image": result_base64

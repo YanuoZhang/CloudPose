@@ -23,7 +23,7 @@ def bytes_to_base64(image_bytes: bytes) -> str:
 
 def pil_to_cv2(image: Image.Image) -> np.ndarray:
     """Convert PIL image (RGB) to OpenCV format (BGR) with resizing and compression"""
-    image = image.resize((360, 360))
+    image = image.resize((224, 224))
 
     buffer = io.BytesIO()
     image.save(buffer, format="JPEG", quality=70)
