@@ -13,10 +13,6 @@ def base64_to_pil(base64_str: str) -> Image.Image:
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid base64 image input: {str(e)}")
 
-def pil_to_base64(image: Image.Image, format: str = "JPEG") -> str:
-    buffered = io.BytesIO()
-    image.save(buffered, format=format)
-    return base64.b64encode(buffered.getvalue()).decode("utf-8")
 
 def bytes_to_base64(image_bytes: bytes) -> str:
     return base64.b64encode(image_bytes).decode("utf-8")
@@ -31,7 +27,3 @@ def pil_to_cv2(image: Image.Image) -> np.ndarray:
     compressed_image = Image.open(buffer)
 
     return cv2.cvtColor(np.array(compressed_image), cv2.COLOR_RGB2BGR)
-
-def cv2_to_pil(image: np.ndarray) -> Image.Image:
-    """Convert OpenCV image (BGR) to PIL format (RGB)"""
-    return Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
