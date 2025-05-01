@@ -10,7 +10,7 @@ import gc
 logger = logging.getLogger(__name__)
 
 class PoseService:
-    def __init__(self, model_path: str = "models/yolo11l-pose.pt"):
+    def __init__(self):
         self.detector = Detector()
         self.cache = {}
 
