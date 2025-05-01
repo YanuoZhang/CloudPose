@@ -36,7 +36,7 @@ class CloudPoseUser(HttpUser):
     def pose_estimation(self):
         payload = self.generate_payload()
         headers = {'Content-Type': 'application/json'}
-        with self.client.post("/api/pose_estimation"
+        with self.client.post("api/pose_estimation"
                                , data=json.dumps(payload)
                                , headers=headers
                                , catch_response=True) as response:
@@ -53,7 +53,7 @@ class CloudPoseUser(HttpUser):
     def pose_estimation_annotation(self):
         payload = self.generate_payload()
         headers = {'Content-Type': 'application/json'}
-        with self.client.post("/api/pose_estimation_annotation"
+        with self.client.post("api/pose_estimation_annotation"
                               , data=json.dumps(payload)
                               , headers=headers
                               , catch_response=True) as response:
@@ -77,12 +77,3 @@ class CloudPoseUser(HttpUser):
         ) as response:
             if response.status_code != 200:
                 response.failure(f"Failed with status {response.status_code}")
-
-@events.request_failure.add_listener
-def on_failure(request_type, name, response_time, exception, **kwargs):
-    global first_failure_detected
-    if not first_failure_detected:
-        first_failure_detected = True
-        print(" First failure detected!")
-        print(f"User Count at Failure: {kwargs.get('user_count', 'unknown')}")
-        sys.exit(0)
